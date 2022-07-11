@@ -39,7 +39,7 @@ def main():
   print('Writing...')
   while True:
       data = ser.readline()
-      data_sensor = data.decode()
+      data_sensor = data.decode('utf')
       data_sensor = data_sensor.split(', ')
       if len(data_sensor)==7:
           dt = float(data_sensor[0])
