@@ -117,5 +117,7 @@ ax3.set_xlabel("noise_x")
 ax4.plot(x3, stats.norm.pdf(x3, mu[3], sigma[3]), 'r-')
 ax4.set_xlabel("noise_y")
 
+print(mu)
+print(sigma**2)
 
 plt.show()
