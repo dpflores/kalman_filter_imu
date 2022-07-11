@@ -71,7 +71,7 @@ while True:
         y_angle = float(angles[1])
         # x_angle = 45
         # y_angle = 45
-
+        print(x_angle)
         delta_x = x_angle - current_x
         delta_y = y_angle - current_y
         delta_z = 0 # We dont have that angle since we are using MPU6050

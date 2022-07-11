@@ -49,7 +49,7 @@ void loop() {
   //Mostrar los angulos separadas por un [tab]
 
   Serial.print(ang_x); 
-  Serial.print(",");
+  Serial.print(", ");
   Serial.println(ang_y);
 
   delay(10);
