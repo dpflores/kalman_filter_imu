@@ -1,4 +1,3 @@
-from cv2 import KalmanFilter
 import numpy as np
 
 from prism import *
@@ -57,9 +56,8 @@ while True:
 
         # Correction Step
         imu_kalman.correction_step(Hk, R)
-
-        x_angle = imu_kalman.xk[0]
-        y_angle = imu_kalman.xk[1]
+        x_angle = imu_kalman.xk[0,0]
+        y_angle = imu_kalman.xk[1,0]
 
         # Updating
         imu_kalman.uk = np.array([[wx, wy]]).T
