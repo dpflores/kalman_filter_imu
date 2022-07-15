@@ -37,18 +37,18 @@ while True:
         az = float(raw_data[6])
 
         # Correction sensor data
-        theta_x = np.arctan(float(ay)/np.sqrt(float(ax)**2 + float(az)**2))*(180.0/3.14)
-        theta_y = np.arctan(-float(ax)/np.sqrt(float(ay)**2 + float(az)**2))*(180.0/3.14)
+        theta_x = np.arctan(ay/np.sqrt(ax**2 + az**2))*(180.0/3.14)
+        theta_y = np.arctan(-ax/np.sqrt(ay**2 + az**2))*(180.0/3.14)
 
         # Kalman matrices
         Fk = np.array([[1.0, 0.0],
                 [0.0, 1.0]])
-        Gk = np.array([[float(dt)/131, 0.0],
-                        [0.0, float(dt)/131]])
+        Gk = np.array([[dt/131, 0.0],
+                        [0.0, dt/131]])
         Hk = np.array([[1.0, 0.0],
                         [0.0, 1.0]])
-        Q = np.array([[(0.25**2)*float(dt)**2, 0.0],
-                        [0.0, (0.56**2)*float(dt)**2]])
+        Q = np.array([[(0.25**2)*dt**2, 0.0],
+                        [0.0, (0.56**2)*dt**2]])
         R = np.array([0.06**2, 0.1**2]).T
 
 
@@ -56,17 +56,17 @@ while True:
         imu_kalman.prediction_step(Fk, Gk, Q)
 
         # Correction Step
-        imu_kalman.correction_step(Fk, Gk, Q)
-        
+        imu_kalman.correction_step(Hk, R)
+
+        x_angle = imu_kalman.xk[0]
+        y_angle = imu_kalman.xk[1]
+
         # Updating
-        imu_kalman.uk = np.array([[float(wx), float(wy)]]).T
+        imu_kalman.uk = np.array([[wx, wy]]).T
         imu_kalman.yk = np.array([[theta_x, theta_y]]).T
     
-       
-
-        # x_angle = 45
-        # y_angle = 45
-        print(x_angle)
+        
+  
         delta_x = x_angle - current_x
         delta_y = y_angle - current_y
         delta_z = 0 # We dont have that angle since we are using MPU6050
@@ -76,12 +76,7 @@ while True:
         glRotatef(delta_z, 0, 1, 0)
         glRotatef(-delta_y, 0, 0, 1)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        
-
+       
         current_x = x_angle
         current_y = y_angle
         print(x_angle, ' ', y_angle)
