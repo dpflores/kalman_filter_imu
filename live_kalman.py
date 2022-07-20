@@ -83,3 +83,5 @@ while True:
 
         imu_prism.show_prism()
     
+# As it can be seen, this kalman filter can works properly for one of the axis, and not for both (depends on Q matrix)
+# Also, it is really delayed form the actual movement in real life, so we need to further improve this.
