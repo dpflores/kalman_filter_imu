@@ -28,12 +28,12 @@ while True:
     raw_data = data_sensor.split(', ')
     if len(raw_data)==7:
         dt = float(raw_data[0])
-        wx = float(raw_data[1])
-        wy = float(raw_data[2])
-        wz = float(raw_data[3])
-        ax = float(raw_data[4])
-        ay = float(raw_data[5])
-        az = float(raw_data[6])
+        ax = float(raw_data[1])
+        ay = float(raw_data[2])
+        az = float(raw_data[3])
+        wx = float(raw_data[4])
+        wy = float(raw_data[5])
+        wz = float(raw_data[6])
 
         # Correction sensor data
         theta_x = np.arctan(ay/np.sqrt(ax**2 + az**2))*(180.0/3.14)
@@ -46,8 +46,8 @@ while True:
                         [0.0, dt/131]])
         Hk = np.array([[1.0, 0.0],
                         [0.0, 1.0]])
-        Q = np.array([[(0.25**2)*dt**2, 0.0],
-                        [0.0, (0.56**2)*dt**2]])
+        Q = np.array([[(0.86**2)*dt**2, 0.0],
+                        [0.0, (0.25**2)*dt**2]])
         R = np.array([0.06**2, 0.1**2]).T
 
 
@@ -56,6 +56,8 @@ while True:
 
         # Correction Step
         imu_kalman.correction_step(Hk, R)
+
+        # Resultant values
         x_angle = imu_kalman.xk[0,0]
         y_angle = imu_kalman.xk[1,0]
 
