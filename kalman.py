@@ -2,17 +2,17 @@ import numpy as np
 
 
 class KalmanFilter:
-    def __init__(self):
+    def __init__(self, xk0, yk0, uk0, Pk0):
         # Initial angular positions
-        self.xk = np.array([[0, 0]]).T
+        self.xk = xk0   #np.array([[0, 0]]).T
 
         # Initial output
-        self.yk = np.array([[0, 0]]).T
+        self.yk = yk0   #np.array([[0, 0]]).T
         # Initial angular speeds
-        self.uk = np.array([[0, 0]]).T
+        self.uk = uk0   #np.array([[0, 0]]).T
 
         # Initial covariance
-        self.Pk = 0.01*np.eye(2)  
+        self.Pk = Pk0   #0.01*np.eye(2)  
     
     def prediction_step(self, Fk, Gk, Q):
         # 1 Prediction
@@ -25,4 +25,4 @@ class KalmanFilter:
 
         # 2b correction
         self.xk = self.xk + Kk @ (self.yk - Hk @ self.xk)
-        self.Pk = (np.eye(2) - Kk @ Hk) @ self.Pk
+        self.Pk = (np.eye(np.shape(self.Pk)[0]) - Kk @ Hk) @ self.Pk
